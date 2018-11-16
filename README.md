@@ -2,6 +2,8 @@
 
 Something fun to create... I am still slowly working on this when I get bored.
 
+11/15/2018  Added code to group columns in SELECT statement.
+
 
 Dependencies:
 

@@ -19,7 +19,7 @@ public class Tables{
 	private Set<SchemaChangedListener> schemaListeners = new HashSet<SchemaChangedListener>();
 	private SqlConnection sqlCon;
 	private String[] columnNames = null;//Holds the tables column names.
-	private String schemaName;//The schema that the tble belongs to.
+	private String schemaName;//The schema that the table belongs to.
 	private String tableName;//The name of the table.
 	private int columnCount;//The number of columns in the table.
 	private int rowCount;//The maximum number of throws in the table.
@@ -178,6 +178,36 @@ public class Tables{
 		}
 		Console.appendMessage(query.toString() + "\n");
 	}
+	/**
+	 * This method is used to group the data in a SQL SELECT statement.  
+	 * The SELECT statement will appends the COUNT(*) column onto the end of the selected columns automatically.
+	 * As a result of the extra column pulled from the data base, you should make room in your table for this data yourself.
+	 * In the future, This extra column will be passed back when this method is next updated.
+	 * 
+	 * @param ColumnNames ArrayList of selected columns to group by.
+	 * @return ArrayList of data from the SQL table.
+	 * @throws SQLException Thrown if the SQL query fails.
+	 */
+	
+	public ArrayList<String[]> SelectGroupByColumn(ArrayList<String> ColumnNames) throws SQLException{
+		StringBuilder query = new StringBuilder();//store the query to be sent.
+		String workingColumns = "";//Columns selected by the user.
+		ArrayList<String[]> data;
+		if(sqlCon.getSchemaName() != schemaName){
+			sqlCon.setSchemaName(schemaName);
+			sqlCon.sendQuery("USE " + schemaName);
+			Console.appendMessage("Working schema changed to " + sqlCon.getSchemaName() + "...\n");
+		}
+		query.append("SELECT ");
+		for (String string : ColumnNames)
+			workingColumns += string + ", ";
+		query.append( workingColumns + "COUNT(*) FROM " + tableName + " GROUP BY " + workingColumns.substring(0, workingColumns.length()-2) + " ORDER BY COUNT(*) DESC");
+		data =  sqlCon.getFromSelectStatement(query.toString());
+
+		Console.appendMessage(query.toString() + "\n");
+		return data;
+	}
+	
 	
 	/**
 	 * Adds new records to the table.
@@ -258,7 +288,7 @@ public class Tables{
 	}
 	
 	/**
-	 * Remove the schema changed listenr from the table.
+	 * Remove the schema changed listener from the table.
 	 * @param listener Schema changed listener
 	 */
 	public void removeTableListener(SchemaChangedListener listener){

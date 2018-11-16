@@ -46,7 +46,7 @@ public class GroupByColumnLayout extends JPanel {
 	//Scrol panes
 	private CustomScrolPane scrpDataTable;//Holds the JTable that holds the data of the record set.
 	//JTables
-	protected TableDataJTable tblData;//Jtable that ods the data for the record set.
+	protected TableDataJTable tblData;//Jtable that holds the data for the record set.
 
 	//Database Objects
 	protected Tables table;//Object to access the schema table
@@ -96,7 +96,7 @@ public class GroupByColumnLayout extends JPanel {
 		addComp(this, scrplstDisplayedColuns, 3, 2, 1, 3, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, 0, 0.5);
 
 		jplc.insets = new Insets(0, 0, 0, 0);
-		tblData = new TableDataJTable(table, new DefaultTableModel(ColumnNames, 5), JTableID.DataTable);
+		tblData = new TableDataJTable(table, new DefaultTableModel(ColumnNames, 1), JTableID.DataTable);
 		scrpDataTable = new CustomScrolPane(tblData);
 		addComp(this, scrpDataTable, 1, 5, 4, 1, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, 1, 1);
 

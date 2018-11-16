@@ -2,12 +2,14 @@ package wetsch.mysqlclient.guilayout.tabledata;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-
+import wetsch.mysqlclient.objects.customuiobjects.tablemodels.CustomJTableModel;
 import wetsch.mysqlclient.objects.database.Tables;
 
 public class GroupByColumn extends GroupByColumnLayout implements ActionListener{
@@ -63,7 +65,20 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 	}
 	
 	private void btnQuery(){
-		
+		ArrayList<String> selectedColumns = new ArrayList<>();
+		ArrayList<String[]> data = null;
+		for(int i = 0; i < lstDisplayedColuns.getModel().getSize(); i++)
+			selectedColumns.add(lstDisplayedColuns.getModel().getElementAt(i));
+		try {
+			data = table.SelectGroupByColumn(selectedColumns);
+			selectedColumns.add("Record Count");
+			String[] c = new String[selectedColumns.size()];//Temporary Variable
+			selectedColumns.toArray(c);
+			tblData.setModel(new CustomJTableModel(data,c));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

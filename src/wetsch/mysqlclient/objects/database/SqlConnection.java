@@ -16,7 +16,7 @@ public class SqlConnection {
 	private String host = null;//Serve'sr host information.
 	private String userName = null;//Server'ss username.
 	private String password = null;//Server's password.
-	private String schema = "firewall_log_db";
+	private String schema = null;
 	
 	public SqlConnection(String serverAddress, String userName, String password, String schema, boolean useSSLConnection) throws SQLException{
 		this.serverAddress = serverAddress;
@@ -35,7 +35,7 @@ public class SqlConnection {
 	}
 	
 	//Return the current database name.
-	public String getDBName(){
+	public String getSchemaName(){
 		return schema;
 	}
 	
