@@ -34,5 +34,4 @@ public class DataTablePopUpMenu extends JPopupMenu {
 		jmExport.add(jmiExportPageCSV);
 		jmExport.add(jmiExportTableCSV);
 	}
-
 }

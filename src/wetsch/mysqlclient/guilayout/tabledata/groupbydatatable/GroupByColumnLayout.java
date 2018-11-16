@@ -1,4 +1,4 @@
-package wetsch.mysqlclient.guilayout.tabledata;
+package wetsch.mysqlclient.guilayout.tabledata.groupbydatatable;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -42,6 +42,9 @@ public class GroupByColumnLayout extends JPanel {
 	protected CustomJButton btnAddColumns;
 	protected CustomJButton btnRemoveColumns;
 	protected CustomJButton btnQuery;
+	
+	//Popup Menus
+	protected GroupByDataTablePopUpMenu dtMenu = new GroupByDataTablePopUpMenu();
 
 	//Scrol panes
 	private CustomScrolPane scrpDataTable;//Holds the JTable that holds the data of the record set.

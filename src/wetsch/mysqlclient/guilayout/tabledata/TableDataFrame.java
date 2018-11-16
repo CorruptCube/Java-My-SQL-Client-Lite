@@ -23,6 +23,7 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableColumn;
 
+import wetsch.mysqlclient.guilayout.tabledata.groupbydatatable.GroupByColumn;
 import wetsch.mysqlclient.objects.CsvFileWritter;
 import wetsch.mysqlclient.objects.customuiobjects.renderor.CheckBoxcJTableCellRender;
 import wetsch.mysqlclient.objects.customuiobjects.tablemodels.DataTableJTableModel;
@@ -317,7 +318,7 @@ public class TableDataFrame extends TableDataFrameLayout implements
 	/*
 	 * Handles the action triggered when the copy menu item is clicked.
 	 */
-	private void miCopyToClipBoardHandlers(){
+	private void miCopyToClipBoardHandler(){
 		int selectedRow = tblData.getSelectedRow();
 		int seleCtedColumn = tblData.getSelectedColumn();
 		if(selectedRow == -1 || seleCtedColumn == -1){
@@ -638,7 +639,7 @@ public class TableDataFrame extends TableDataFrameLayout implements
 		} else if (e.getSource() == btnTableFilters) {
 			triggerFilterPanel();
 		}else if(e.getSource() == dtPopUpMenu.jmiCopy){
-			miCopyToClipBoardHandlers();
+			miCopyToClipBoardHandler();
 		}else if(e.getSource() == dtPopUpMenu.jmiGroupColumns){
 			new GroupByColumn(table);
 		}else if(e.getSource() == dtPopUpMenu.jmiExportPageCSV){
