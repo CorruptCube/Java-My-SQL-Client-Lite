@@ -1,5 +1,7 @@
 package wetsch.mysqlclient.objects.customuiobjects.tablemodels;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
@@ -9,6 +11,17 @@ public class DataTableJTableModel extends CustomJTableModel {
 	private boolean tableIsEditable = true;
 	private boolean primaryKeyEditable = false;
 	private ArrayList<Integer> priColumnNumbers;
+	
+	
+	public DataTableJTableModel(ResultSet resultSet, boolean tableIsEditable,
+			boolean primaryKeyEditable, ArrayList<Integer> priColumnNumbers) throws SQLException{
+			super(resultSet);
+			this.primaryKeyEditable = primaryKeyEditable;
+			this.priColumnNumbers = priColumnNumbers;
+			this.tableIsEditable = tableIsEditable;
+	}
+
+	
 	/**
 	 * This constructor sets the column names, column editable, and primary key columns.
 	 * Set the number of rows to 0 if the table modle is going to be empty.

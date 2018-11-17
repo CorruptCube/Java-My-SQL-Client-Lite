@@ -233,7 +233,7 @@ public class TableDataFrame extends TableDataFrameLayout implements
 				return model = new DataTableJTableModel(columnNames, 0,
 						primaryKeyEditable, tableIsEditable,
 						table.getPrimaryKeyColumnNumbers());
-			model = new DataTableJTableModel(table.getTableData(), columnNames,
+			model = new DataTableJTableModel(table.getResultSet(),
 					primaryKeyEditable, tableIsEditable, pkColumnNumbers);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -78,17 +79,13 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 	
 	private void btnQuery(){
 		ArrayList<String> selectedColumns = new ArrayList<>();
-		ArrayList<String[]> data = null;
+		ResultSet data = null;
 		for(int i = 0; i < lstDisplayedColuns.getModel().getSize(); i++)
 			selectedColumns.add(lstDisplayedColuns.getModel().getElementAt(i));
 		try {
 			data = table.SelectGroupByColumn(selectedColumns);
-			selectedColumns.add("Record Count");
-			String[] c = new String[selectedColumns.size()];//Temporary Variable
-			selectedColumns.toArray(c);
-			tblData.setModel(new CustomJTableModel(data,c));
+			tblData.setModel(new CustomJTableModel(data));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -132,7 +129,4 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 			}
 		}
 	};
-	
-	
-
 }

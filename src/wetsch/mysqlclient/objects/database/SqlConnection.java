@@ -93,6 +93,11 @@ public class SqlConnection {
 		return data;
 	}
 	
+	public ResultSet getFromSelectStatementAsResultSet(String query) throws SQLException {
+		return sqlCon.createStatement().executeQuery(query);
+
+	}
+	
 	//Get data from table.
 	public ResultSet selectFromTablePagination(String queryString) throws SQLException{
 	     Statement stmt = sqlCon.createStatement(
