@@ -25,7 +25,6 @@ public class Tables{
 	private int rowCount;//The maximum number of throws in the table.
 	private int filteredRowCount;//The number of rows matching column constraints.
 	private ArrayList<String[]> tableDescribe = null;//Holds the tables description information.
-	private ArrayList<String[]> tableData = null;//Holds the row data returned by select query.
 	private String[] noDropList = new String[]{"mysql", "information_schema", "performance_schema"};//Read only schemas.
 	private ResultSet resultSet;
 	
@@ -128,13 +127,6 @@ public class Tables{
 	public ArrayList<String[]> getTableDescribe(){
 		return tableDescribe;
 	}
-	/**
-	 * Returns an array list of the tables data.
-	 * @return array list
-	 */
-	public ArrayList<String[]> getTableData(){
-		return tableData;
-	}
 	
 	/**
 	 * Returns all the data in the table.
@@ -157,7 +149,6 @@ public class Tables{
 	 * @throws SQLException
 	 */
 	public void selectFromTablePagination(int page, int numberOfRows, String queryString, boolean useFilter, boolean filtersUpdated, boolean filterConstraints) throws SQLException{
-		int rowCounter = 0;
 		int offset = (page-1)*numberOfRows;
 		String limit = " LIMIT " + offset + "," + numberOfRows;
 		StringBuilder query = new StringBuilder();
@@ -172,20 +163,12 @@ public class Tables{
 		query.setLength(0);
 		query.append(queryString + limit);
 		resultSet = sqlCon.selectFromTablePagination(query.toString());
-		tableData = new ArrayList<String[]>();
-		while(resultSet.next()){
-			tableData.add(new String[resultSet.getMetaData().getColumnCount()]);
-			for(int c = 0; c < resultSet.getMetaData().getColumnCount(); c++){
-				tableData.get(rowCounter)[c] = resultSet.getString(c+1);
-			}
-			rowCounter++;
-		}
 		Console.appendMessage(query.toString() + "\n");
 	}
 	/**
 	 * This method is used to group the data in a SQL SELECT statement.  
 	 * The SELECT statement will appends the COUNT(*) column onto the end of the selected columns automatically.  
-	 * The COUNT(*) column is hard coded as Record Count 
+	 * The COUNT(*) column is hard coded as the alias Record Count 
 	 * @param ColumnNames ArrayList of selected columns to group by.
 	 * @return ArrayList of data from the SQL table.
 	 * @throws SQLException Thrown if the SQL query fails.

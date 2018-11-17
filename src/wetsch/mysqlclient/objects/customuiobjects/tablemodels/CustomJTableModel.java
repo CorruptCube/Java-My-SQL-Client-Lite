@@ -2,11 +2,10 @@ package wetsch.mysqlclient.objects.customuiobjects.tablemodels;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;import javax.print.attribute.ResolutionSyntax;
+import java.util.ArrayList;
+
 import javax.swing.table.DefaultTableModel;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 public class CustomJTableModel extends DefaultTableModel{
 
@@ -30,6 +29,19 @@ public class CustomJTableModel extends DefaultTableModel{
 	public CustomJTableModel(String[][] data, String[] columnNames) {
 		super(data, columnNames);
 	}
+	
+	public void LoadModelData(ResultSet resultSet) throws SQLException{
+		String[] value;
+		getDataVector().clear();
+		while(resultSet.next()){
+			value = new String[resultSet.getMetaData().getColumnCount()];
+			for(int i = 0; i < resultSet.getMetaData().getColumnCount(); i++)
+				value[i] = resultSet.getString(i+1);
+			addRow(value);
+
+		}
+
+	}
 
 	/**
 	 * Populates the table model wieth row data that is stored in the passed in array list.
@@ -40,12 +52,17 @@ public class CustomJTableModel extends DefaultTableModel{
 		for(String[] r : rowData)
 			addRow(r);
 	}
-
+	
+	/**
+	 * This method is hard coded to return false.
+	 */
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
-	
+	/*
+	 * This method take in a sql result set and populate the table model.
+	 */
 	private void populateFromResultSet(ResultSet resultSet) throws SQLException{
 		String[] value;
 		int columns;

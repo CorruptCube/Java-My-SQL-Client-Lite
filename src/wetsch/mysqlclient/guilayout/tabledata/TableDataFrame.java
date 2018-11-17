@@ -229,7 +229,7 @@ public class TableDataFrame extends TableDataFrameLayout implements
 						primaryKeyEditable, tableIsEditable, pkColumnNumbers);
 			table.selectFromTablePagination(page, numberOfRows, queryString,
 					filterEnabled, filtersUpdated, filterConstraints);
-			if (table.getTableData().size() == 0)
+			if (!table.getResultSet().next())
 				return model = new DataTableJTableModel(columnNames, 0,
 						primaryKeyEditable, tableIsEditable,
 						table.getPrimaryKeyColumnNumbers());
@@ -456,11 +456,10 @@ public class TableDataFrame extends TableDataFrameLayout implements
 				return;
 			}
 			model = (DataTableJTableModel) tblData.getModel();
-			model = (DataTableJTableModel) tblData.getModel();
 			model.getDataVector().clear();
 			table.selectFromTablePagination(page, numberOfRows, queryString,
 					filtersEnabled, filtersUpdated, filterConstraints);
-			model.loadModelData(table.getTableData());
+			model.LoadModelData(table.getResultSet());
 			updateRecordSetInfo();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -544,7 +543,12 @@ public class TableDataFrame extends TableDataFrameLayout implements
 
 		if (tblData.isEditing())
 			tblData.getCellEditor().stopCellEditing();
-		model.loadModelData(table.getTableData());
+		try {
+			model.LoadModelData(table.getResultSet());;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*
