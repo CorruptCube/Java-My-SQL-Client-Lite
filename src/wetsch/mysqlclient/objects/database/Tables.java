@@ -186,7 +186,9 @@ public class Tables{
 		query.append("SELECT ");
 		for (String string : ColumnNames)
 			workingColumns += string + ", ";
-		query.append( workingColumns + "COUNT(*) AS 'Record Count' FROM " + tableName + " GROUP BY " + workingColumns.substring(0, workingColumns.length()-2) + " ORDER BY COUNT(*) DESC");
+		//The sub-string in the next append cuts off the dangling , before the ORDER BY.
+		query.append( workingColumns + "COUNT(*) AS 'Record Count' FROM " + tableName + " GROUP BY "
+			+ workingColumns.substring(0, workingColumns.length()-2) + " ORDER BY COUNT(*) DESC");
 		data =  sqlCon.getFromSelectStatementAsResultSet(query.toString());
 		Console.appendMessage(query.toString() + "\n");
 		return data;
@@ -215,10 +217,11 @@ public class Tables{
 			else
 				queryString.append("),");
 		}
-		if(sqlCon.addNewRecords(data, columnCount,queryString.toString()));
+		if(sqlCon.addNewRecords(data, columnCount,queryString.toString())){
 			rowCount += data.size();
 			updateSchemaTableMainWindow();
-		return true;
+			return true;
+		}else return false;
 	}
 	
 	/**

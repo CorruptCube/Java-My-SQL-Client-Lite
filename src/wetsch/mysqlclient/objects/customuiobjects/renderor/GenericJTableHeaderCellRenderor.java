@@ -1,4 +1,4 @@
-package wetsch.mysqlclient.objects.customuiobjects;
+package wetsch.mysqlclient.objects.customuiobjects.renderor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -16,10 +16,10 @@ public class GenericJTableHeaderCellRenderor extends JLabel implements TableCell
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		setOpaque(true);
+		setOpaque(false);
 		setText(value.toString());
 		setHorizontalAlignment(SwingConstants.CENTER);
-		 setForeground(Color.black);
+		 setForeground(Color.WHITE);
 	     return this;
 	}
 }

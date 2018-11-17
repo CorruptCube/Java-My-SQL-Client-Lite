@@ -342,12 +342,14 @@ public class TableDataFrame extends TableDataFrameLayout implements
 				return;
 			}
 			path = getFileDialog("Save");
-			String[][] data = new String[tblData.getRowCount()+1][tblData.getColumnCount()];
+			ArrayList<String[]> data = new ArrayList<String[]>();
+			data.add(new String[tblData.getColumnCount()]);
 			for(int c = 0; c < tblData.getColumnCount(); c++)
-				data[0][c] = tblData.getColumnModel().getColumn(c).getHeaderValue().toString();
-			for(int r = 1; r < data.length; r++){
-				for(int c = 0; c < data[r].length; c++){
-					data[r][c] = tblData.getValueAt(r-1, c).toString();
+				data.get(0)[c] = tblData.getColumnModel().getColumn(c).getHeaderValue().toString();
+			for(int r = 0; r < tblData.getRowCount(); r++){
+				data.add(new String[tblData.getColumnCount()]);
+				for(int c = 0; c < tblData.getColumnCount(); c++){
+					data.get(r+1)[c] = tblData.getValueAt(r, c).toString();
 				}
 			}
 		CsvFileWritter cfw = new CsvFileWritter(data, "|");
@@ -361,8 +363,6 @@ public class TableDataFrame extends TableDataFrameLayout implements
 	
 	private void miExportTable(){
 		String path = null;
-		int row = 1;
-		int column = 0;
 		try{
 			if(tblData.getRowCount() == 0){
 				JOptionPane.showMessageDialog(this, "There is no data to write.");
@@ -370,18 +370,9 @@ public class TableDataFrame extends TableDataFrameLayout implements
 			}
 			path = getFileDialog("Save");
 			ArrayList<String[]> tableData = table.getAllRecords();
-			String[][] csvData = new String[table.getRowCount()+1][table.getColumnCount()];
-			for(int c = 0; c < tblData.getColumnCount(); c++)
-				csvData[0][c] = tblData.getColumnModel().getColumn(c).getHeaderValue().toString();
-			for(String[] cData : tableData){
-				for(String value : cData){
-					csvData[row][column] = value;
-					column++;
-				}
-				row++;
-				column = 0;
-			}
-			CsvFileWritter cfw = new CsvFileWritter(csvData, "|");
+			tableData.add(0, table.getColumnNamesArray());
+			
+			CsvFileWritter cfw = new CsvFileWritter(tableData, "|");
 			cfw.writeCsvFile(path);
 			JOptionPane.showMessageDialog(this, "File written to " + path);
 		}catch(Exception e){

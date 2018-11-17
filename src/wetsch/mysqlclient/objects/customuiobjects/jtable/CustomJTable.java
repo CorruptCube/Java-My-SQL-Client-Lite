@@ -8,7 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import wetsch.mysqlclient.objects.configuration.Settings;
-import wetsch.mysqlclient.objects.customuiobjects.CustomJTableHeader;
+import wetsch.mysqlclient.objects.customuiobjects.renderor.CustomJTableHeader;
+import wetsch.mysqlclient.objects.customuiobjects.renderor.GenericJTableHeaderCellRenderor;
 import wetsch.mysqlclient.objects.enums.GlobalObjects;
 import wetsch.mysqlclient.objects.enums.JTableID;
 
@@ -23,7 +24,9 @@ public class CustomJTable extends JTable{
 		header = new CustomJTableHeader();
 		setTableHeader(header);
 		header.setColumnModel(getColumnModel());
+		header.setDefaultRenderer(new GenericJTableHeaderCellRenderor());
 		setDefaultRenderer(Object.class, renderer);
+		
 
 		setOpaque(false);
 		setFillsViewportHeight(false);

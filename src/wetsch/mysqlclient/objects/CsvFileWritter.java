@@ -1,8 +1,9 @@
 package wetsch.mysqlclient.objects;
 
-import java.io.File;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.naming.directory.InvalidAttributesException;
 
@@ -19,7 +20,7 @@ import javax.naming.directory.InvalidAttributesException;
  */
 public class CsvFileWritter {
 
-	private String[][] data = null;//Data to write to CSV file.
+	private ArrayList<String[]> data = null;//Data to write to CSV file.
 	private String delimiter = null;//CSV delimiter.
 	private String[] invalidStringValues = null;//Invalid string values.
 	
@@ -29,7 +30,7 @@ public class CsvFileWritter {
 	 * @param delimiter The delimiter to separate the data.
 	 * @throws InvalidAttributesException Thrown if the data array or delimiter are equal to null or invalid.
 	 */
-	public CsvFileWritter(String[][] data, String delimiter) throws InvalidAttributesException {
+	public CsvFileWritter(ArrayList<String[]> data, String delimiter) throws InvalidAttributesException {
 		invalidStringValues = new String[]{null, ""};
 		if(data == null)
 			throw new InvalidAttributesException("The data array can not be null;");
@@ -41,7 +42,7 @@ public class CsvFileWritter {
 
 	/**
 	 * Sets the delimiter that will be used to separate the data.<br>
-	 * The fallowing examples can be used as delimiters.<br>
+	 * The following examples can be used as delimiters.<br>
 	 * <li>|
 	 * 	<li>,<br>
 	 * Note that a , is not a good delimiter in the following example.  
@@ -70,7 +71,7 @@ public class CsvFileWritter {
 	 * @return
 	 * String[][]
 	 */
-	public String[][] getData(){
+	public ArrayList<String[]> getData(){
 		return data;
 	}
 	
@@ -79,7 +80,7 @@ public class CsvFileWritter {
 	 * @param data Data to store in the CSV file.
 	 * @throws InvalidAttributesException Throws exception if parameter is equal to null.
 	 */
-	public void setData(String[][] data) throws InvalidAttributesException{
+	public void setData(ArrayList<String[]> data) throws InvalidAttributesException{
 		if(data == null)
 				throw new InvalidAttributesException("The data array can not be null;");
 		this.data = data;
@@ -95,25 +96,21 @@ public class CsvFileWritter {
 	 * @throws IOException Thrown if the file can not be written.
 	 */
 	public void writeCsvFile(String fileName) throws InvalidAttributesException, IOException{
-		StringBuilder stBuilder = new StringBuilder();
 		if(Arrays.asList(invalidStringValues).contains(fileName) || Arrays.asList(invalidStringValues).contains(delimiter))
 			throw new InvalidAttributesException("The filename or delimiter are invalid.");
 		if(data == null)
 			throw new InvalidAttributesException("The data array can not be null");
-		for(int r = 0; r < data.length; r ++){
-			for(int c = 0; c <data[r].length; c++){
-				if(c < data[r].length-1)
-					stBuilder.append(data[r][c] + delimiter);
+		BufferedWriter  bw = new BufferedWriter(new FileWriter(fileName, true));
+		for(String[] s : data){
+			for(int c = 0; c < s.length; c++){
+				if(c < s.length-1)
+					 bw.write(s[c] + delimiter);
 				else
-					stBuilder.append(data[r][c] + "\n");
+					 bw.write(s[c] + "\n");
 			}
+			bw.flush();
 		}
-		File f = new File(fileName);
-		if(!f.exists())
-			f.createNewFile();
-		FileWriter fw = new FileWriter(f);
-		fw.write(stBuilder.toString());
-		fw.close();
+	    bw.close();
 	}
 
 }

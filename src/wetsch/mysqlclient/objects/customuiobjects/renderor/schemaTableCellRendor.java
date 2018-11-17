@@ -19,7 +19,6 @@ public class schemaTableCellRendor extends JLabel implements TableCellRenderer{
 			if(column == 0){
 				setIcon(icon);
 				setHorizontalAlignment(SwingConstants.LEFT);
-				
 			}else{
 				setIcon(null);
 				setHorizontalAlignment(SwingConstants.CENTER);

@@ -1,4 +1,4 @@
-package wetsch.mysqlclient.objects.customuiobjects;
+package wetsch.mysqlclient.objects.customuiobjects.renderor;
 
 import java.awt.Color;
 import java.awt.Dimension;
