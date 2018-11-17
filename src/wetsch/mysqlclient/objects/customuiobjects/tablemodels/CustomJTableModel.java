@@ -30,9 +30,15 @@ public class CustomJTableModel extends DefaultTableModel{
 		super(data, columnNames);
 	}
 	
+	/**
+	 * This method populate the table model using a result set.
+	 * @param resultSet
+	 * @throws SQLException
+	 */
 	public void LoadModelData(ResultSet resultSet) throws SQLException{
 		String[] value;
 		getDataVector().clear();
+		resultSet.beforeFirst();
 		while(resultSet.next()){
 			value = new String[resultSet.getMetaData().getColumnCount()];
 			for(int i = 0; i < resultSet.getMetaData().getColumnCount(); i++)
@@ -44,7 +50,7 @@ public class CustomJTableModel extends DefaultTableModel{
 	}
 
 	/**
-	 * Populates the table model wieth row data that is stored in the passed in array list.
+	 * Populates the table model with row data that is stored in the passed in array list.
 	 * @param rowData Table model row data.
 	 */
 	public void loadModelData(ArrayList<String[]> rowData){
@@ -78,7 +84,5 @@ public class CustomJTableModel extends DefaultTableModel{
 			}
 			addRow(value);
 		}
-
 	}
-
 }
