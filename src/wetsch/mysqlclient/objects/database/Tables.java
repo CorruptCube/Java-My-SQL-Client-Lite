@@ -168,13 +168,15 @@ public class Tables{
 	/**
 	 * This method is used to group the data in a SQL SELECT statement.  
 	 * The SELECT statement will appends the COUNT(*) column onto the end of the selected columns automatically.  
-	 * The COUNT(*) column is hard coded as the alias Record Count 
+	 * The COUNT(*) column alias is the second parameter passed in to this method.  You may set this alias to 
+	 * what ever string value you want.
 	 * @param ColumnNames ArrayList of selected columns to group by.
-	 * @return ArrayList of data from the SQL table.
+	 * @param String Count(*) column name.
+	 * @return ResultSet of data from the SQL table.
 	 * @throws SQLException Thrown if the SQL query fails.
 	 */
 	
-	public ResultSet SelectGroupByColumn(ArrayList<String> ColumnNames) throws SQLException{
+	public ResultSet SelectGroupByColumn(ArrayList<String> ColumnNames, String countColumnName) throws SQLException{
 		StringBuilder query = new StringBuilder();//store the query to be sent.
 		String workingColumns = "";//Columns selected by the user.
 		ResultSet data;
@@ -187,7 +189,7 @@ public class Tables{
 		for (String string : ColumnNames)
 			workingColumns += string + ", ";
 		//The sub-string in the next append cuts off the dangling , before the ORDER BY.
-		query.append( workingColumns + "COUNT(*) AS 'Record Count' FROM " + tableName + " GROUP BY "
+		query.append( workingColumns + "COUNT(*) AS '" + countColumnName + "' FROM " + tableName + " GROUP BY "
 			+ workingColumns.substring(0, workingColumns.length()-2) + " ORDER BY COUNT(*) DESC");
 		data =  sqlCon.getFromSelectStatementAsResultSet(query.toString());
 		Console.appendMessage(query.toString() + "\n");

@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import wetsch.mysqlclient.objects.customuiobjects.button.CustomJButton;
@@ -42,6 +43,8 @@ public class GroupByColumnLayout extends JPanel {
 	protected CustomJButton btnAddColumns;
 	protected CustomJButton btnRemoveColumns;
 	protected CustomJButton btnQuery;
+	
+	protected JTextField jtfRowCountColumnName;
 	
 	//Popup Menus
 	protected GroupByDataTablePopUpMenu dtMenu = new GroupByDataTablePopUpMenu();
@@ -72,36 +75,42 @@ public class GroupByColumnLayout extends JPanel {
 		jplc = new GridBagConstraints();
 		jplc.insets = new Insets(0, 0, 0, 0);
 
-		JLabel l1 = new JLabel("Columns");
-		l1.setForeground(Color.white);
-		addComp(this, l1, 1, 1, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
+		JLabel L1 = new JLabel("Columns");
+		L1.setForeground(Color.white);
+		addComp(this, L1, 1, 1, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
 
 		scrpLstColumns = new  CustomListBoxScrollPane(lstColumns);
-		addComp(this, scrpLstColumns, 1, 2, 1, 3, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, 0, 0.5);
+		addComp(this, scrpLstColumns, 1, 2, 1, 5, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, 0, 0.5);
 
 		jplc.insets = new Insets(0, 50, 0, 0);
 		btnAddColumns = new CustomJButton("Add Column");
 		addComp(this, btnAddColumns, 2, 2, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
-
+		
 		btnRemoveColumns = new CustomJButton("Remove Colun");
 		addComp(this, btnRemoveColumns, 2, 3, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
 		
-		btnQuery = new CustomJButton("Query");
-		addComp(this, btnQuery, 2, 4, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
+		JLabel L2 = new JLabel("Column name for COUNT(*) column:");
+		L2.setForeground(Color.white);
+		addComp(this, L2, 2, 4, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL, 0, 0);
+		
+		jtfRowCountColumnName = new JTextField("Record Count");
+		addComp(this, jtfRowCountColumnName, 2, 5, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL, 0, 0);
 
-		
-		jplc.insets = new Insets(0, 150, 0, 0);
-		JLabel l2 = new JLabel("Filtered Columns");
-		l2.setForeground(Color.white);
-		addComp(this, l2, 3, 1, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
-		
+		btnQuery = new CustomJButton("Query");
+		addComp(this, btnQuery, 2, 6, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
+
+		jplc.insets = new Insets(0, 10, 0, 0);
+		JLabel L3 = new JLabel("Filtered Columns");
+		L3.setForeground(Color.white);
+		addComp(this, L3, 3, 1, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
+
 		scrplstDisplayedColuns = new CustomListBoxScrollPane(lstDisplayedColuns);
-		addComp(this, scrplstDisplayedColuns, 3, 2, 1, 3, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, 0, 0.5);
+		addComp(this, scrplstDisplayedColuns, 3, 2, 1, 5, GridBagConstraints.LINE_START, GridBagConstraints.VERTICAL, 0, 0.5);
 
 		jplc.insets = new Insets(0, 0, 0, 0);
-		tblData = new TableDataJTable(table, new DefaultTableModel(ColumnNames, 1), JTableID.DataTable);
+		tblData = new TableDataJTable(table, new DefaultTableModel(ColumnNames, 0), JTableID.DataTable);
 		scrpDataTable = new CustomScrolPane(tblData);
-		addComp(this, scrpDataTable, 1, 5, 4, 1, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, 1, 1);
+		addComp(this, scrpDataTable, 1, 7, 4, 1, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, 1, 1);
 
 		
 	}

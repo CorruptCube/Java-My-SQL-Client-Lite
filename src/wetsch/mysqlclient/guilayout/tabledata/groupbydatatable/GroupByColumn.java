@@ -15,7 +15,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-
 import wetsch.mysqlclient.objects.customuiobjects.tablemodels.CustomJTableModel;
 import wetsch.mysqlclient.objects.database.Tables;
 
@@ -78,14 +77,21 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 	}
 	
 	private void btnQuery(){
+		
+		if(lstDisplayedColuns.getModel().getSize() == 0){
+			JOptionPane.showMessageDialog(this, "You must first select columns to filter.");
+			return;
+		}
+		
 		ArrayList<String> selectedColumns = new ArrayList<>();
 		ResultSet data = null;
 		for(int i = 0; i < lstDisplayedColuns.getModel().getSize(); i++)
 			selectedColumns.add(lstDisplayedColuns.getModel().getElementAt(i));
 		try {
-			data = table.SelectGroupByColumn(selectedColumns);
+			data = table.SelectGroupByColumn(selectedColumns, jtfRowCountColumnName.getText().toString());
 			tblData.setModel(new CustomJTableModel(data));
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -101,8 +107,8 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 		StringSelection stringSelection = new StringSelection(value);
 		Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clpbrd.setContents(stringSelection, null);
-		
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()== btnAddColumns)
@@ -118,7 +124,6 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 	
 	}
 	
-
 	//This MouseAdapter class is used to grab actions from ouse clicks.
 	private class MyMouseAdapter  extends MouseAdapter {
 	

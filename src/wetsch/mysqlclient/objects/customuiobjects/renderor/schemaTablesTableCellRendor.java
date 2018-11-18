@@ -14,7 +14,15 @@ public class schemaTablesTableCellRendor extends JLabel implements TableCellRend
 	private static final long serialVersionUID = 1L;
 	ImageIcon icon = new ImageIcon(getClass().getResource("/icons/table.png"));// prepared
 																				// before
-
+	/*
+	 * When using value.tostring() when setting the text for the label, This caused a null pointer exception
+	 * when using the Mac OS magnifier.  This exception would be thrown when selecting a different row the the JTable.
+	 * To try to correct this problem, the code has been changed to (String) value when setting the text for the label.
+	 * In several trials this appears to have fixed the problem.
+	 *
+	 * (non-Javadoc)
+	 * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 		setOpaque(true);
