@@ -130,12 +130,12 @@ public class Tables{
 	
 	/**
 	 * Returns all the data in the table.
-	 * @return array list
+	 * @return ResultSet
 	 * @throws SQLException
 	 */
-	public ArrayList<String[]> getAllRecords() throws SQLException{
+	public ResultSet getAllRecords() throws SQLException{
 		String query = "SELECT * FROM " + schemaName + "." + tableName;
-		return sqlCon.getFromSelectStatement(query);
+		return sqlCon.getFromSelectStatementAsResultSet(query);
 	}
 	
 	/**
@@ -315,5 +315,4 @@ public class Tables{
 		String query = "SELECT COUNT(*) FROM information_schema.COLUMNS" + " WHERE table_schema ='" + schemaName + "'" + "AND table_name='" + tableName + "'";
 		return sqlCon.getCount(query);
 	}
-
 }

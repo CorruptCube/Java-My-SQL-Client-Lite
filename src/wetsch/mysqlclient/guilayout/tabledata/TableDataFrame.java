@@ -11,6 +11,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +56,8 @@ public class TableDataFrame extends TableDataFrameLayout implements
 			return;
 		populatePagesComboBox();
 	}
-
+	
+	//Checks if the table contains any records.
 	private boolean checkEmptyTable() {
 		if (table.getRowCount() == 0) {
 			lblRecordSet.setText("Table is empty.");
@@ -317,6 +319,7 @@ public class TableDataFrame extends TableDataFrameLayout implements
 	//Data table pop-up menu Handlers
 	/*
 	 * Handles the action triggered when the copy menu item is clicked.
+	 * The method copes the text in the selected cell to the system clip-board.
 	 */
 	private void miCopyToClipBoardHandler(){
 		int selectedRow = tblData.getSelectedRow();
@@ -342,17 +345,7 @@ public class TableDataFrame extends TableDataFrameLayout implements
 				return;
 			}
 			path = getFileDialog("Save");
-			ArrayList<String[]> data = new ArrayList<String[]>();
-			data.add(new String[tblData.getColumnCount()]);
-			for(int c = 0; c < tblData.getColumnCount(); c++)
-				data.get(0)[c] = tblData.getColumnModel().getColumn(c).getHeaderValue().toString();
-			for(int r = 0; r < tblData.getRowCount(); r++){
-				data.add(new String[tblData.getColumnCount()]);
-				for(int c = 0; c < tblData.getColumnCount(); c++){
-					data.get(r+1)[c] = tblData.getValueAt(r, c).toString();
-				}
-			}
-		CsvFileWritter cfw = new CsvFileWritter(data, "|");
+		CsvFileWritter cfw = new CsvFileWritter(table.getResultSet(), "|");
 		cfw.writeCsvFile(path);
 		JOptionPane.showMessageDialog(this, "File written to " + path);
 		}catch(Exception e){
@@ -361,6 +354,7 @@ public class TableDataFrame extends TableDataFrameLayout implements
 		}
 	}
 	
+	//Handles wring all data in the SQL table to a VSV vile. 
 	private void miExportTable(){
 		String path = null;
 		try{
@@ -369,8 +363,7 @@ public class TableDataFrame extends TableDataFrameLayout implements
 				return;
 			}
 			path = getFileDialog("Save");
-			ArrayList<String[]> tableData = table.getAllRecords();
-			tableData.add(0, table.getColumnNamesArray());
+			ResultSet tableData = table.getAllRecords();
 			
 			CsvFileWritter cfw = new CsvFileWritter(tableData, "|");
 			cfw.writeCsvFile(path);
@@ -402,7 +395,6 @@ public class TableDataFrame extends TableDataFrameLayout implements
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	// Handler for the next record set button.
@@ -537,7 +529,6 @@ public class TableDataFrame extends TableDataFrameLayout implements
 		try {
 			model.LoadModelData(table.getResultSet());;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -690,7 +681,6 @@ public class TableDataFrame extends TableDataFrameLayout implements
 			}
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, ex.getMessage());
-
 		}
 	}
 
@@ -728,7 +718,6 @@ public class TableDataFrame extends TableDataFrameLayout implements
 		        dtPopUpMenu.show(tblData, e.getX(), e.getY());
 			}
 		}
-		
 	}
 	
 	private class myComponentListener extends ComponentAdapter{
@@ -746,6 +735,5 @@ public class TableDataFrame extends TableDataFrameLayout implements
 				refreshTableData();
 			super.componentHidden(e);
 		}
-		
 	}
 }

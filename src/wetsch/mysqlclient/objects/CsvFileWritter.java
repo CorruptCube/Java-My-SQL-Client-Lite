@@ -3,7 +3,8 @@ package wetsch.mysqlclient.objects;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import javax.naming.directory.InvalidAttributesException;
 
@@ -20,24 +21,27 @@ import javax.naming.directory.InvalidAttributesException;
  */
 public class CsvFileWritter {
 
-	private ArrayList<String[]> data = null;//Data to write to CSV file.
+	private ResultSet data = null;//Data to write to CSV file.
 	private String delimiter = null;//CSV delimiter.
 	private String[] invalidStringValues = null;//Invalid string values.
 	
 	/**
-	 * This constructor takes in the data array and delimiter to be used to generate the CSV file.
-	 * @param data Data to be used.
+	 * This constructor takes in the ResultSet holding the data, 
+	 * and the delimiter to be used to generate the CSV file.
+	 * @param tableData Data to be used.
 	 * @param delimiter The delimiter to separate the data.
 	 * @throws InvalidAttributesException Thrown if the data array or delimiter are equal to null or invalid.
+	 * @throws SQLException 
 	 */
-	public CsvFileWritter(ArrayList<String[]> data, String delimiter) throws InvalidAttributesException {
+	public CsvFileWritter(ResultSet tableData, String delimiter) throws InvalidAttributesException, SQLException {
 		invalidStringValues = new String[]{null, ""};
-		if(data == null)
+		if(tableData == null)
 			throw new InvalidAttributesException("The data array can not be null;");
 		if(Arrays.asList(invalidStringValues).contains(delimiter))
 			throw new InvalidAttributesException("The delimiter is invalid.");
-		this.data = data;
+		this.data = tableData;
 		this.delimiter = delimiter;
+		data.beforeFirst();
 	}
 
 	/**
@@ -67,11 +71,11 @@ public class CsvFileWritter {
 	}
 	
 	/**
-	 * Returns the data array that is to be used to generate the CSV file.
+	 * Returns the ResultSet that is to be used to generate the CSV file.
 	 * @return
 	 * String[][]
 	 */
-	public ArrayList<String[]> getData(){
+	public ResultSet getData(){
 		return data;
 	}
 	
@@ -80,37 +84,44 @@ public class CsvFileWritter {
 	 * @param data Data to store in the CSV file.
 	 * @throws InvalidAttributesException Throws exception if parameter is equal to null.
 	 */
-	public void setData(ArrayList<String[]> data) throws InvalidAttributesException{
+	public void setData(ResultSet data) throws InvalidAttributesException{
 		if(data == null)
 				throw new InvalidAttributesException("The data array can not be null;");
 		this.data = data;
 	}
 	
 	/**
-	 * Writes the data passed in from the array to a CSV file.  
-	 * The method will throw an exception if the data array 
+	 * Writes the data passed in from the ResultSet to a CSV file.  
+	 * The method will throw an exception if the ResultSet 
 	 *  equals null, the file name is improperly formated, or 
 	 *  the delimiter is null or invalid.
 	 * @param fileName The absolute path of the file name.
 	 * @throws InvalidAttributesException Thrown if file name is null or an empty string.
 	 * @throws IOException Thrown if the file can not be written.
+	 * @throws SQLException 
 	 */
-	public void writeCsvFile(String fileName) throws InvalidAttributesException, IOException{
+	public void writeCsvFile(String fileName) throws InvalidAttributesException, IOException, SQLException{
 		if(Arrays.asList(invalidStringValues).contains(fileName) || Arrays.asList(invalidStringValues).contains(delimiter))
 			throw new InvalidAttributesException("The filename or delimiter are invalid.");
 		if(data == null)
 			throw new InvalidAttributesException("The data array can not be null");
 		BufferedWriter  bw = new BufferedWriter(new FileWriter(fileName, true));
-		for(String[] s : data){
-			for(int c = 0; c < s.length; c++){
-				if(c < s.length-1)
-					 bw.write(s[c] + delimiter);
+		for (int c = 0; c < data.getMetaData().getColumnCount(); c++){
+			if(c < data.getMetaData().getColumnCount()-1)
+				 bw.write(data.getMetaData().getColumnName(c+1) + delimiter);
+			else
+				 bw.write(data.getMetaData().getColumnName(c+1) + "\n");
+		}
+		
+		while(data.next()){
+			for(int c = 0; c < data.getMetaData().getColumnCount(); c++){
+				if(c < data.getMetaData().getColumnCount()-1)
+					 bw.write(data.getString(c+1).toString() + delimiter);
 				else
-					 bw.write(s[c] + "\n");
+					 bw.write(data.getString(c+1).toString() + "\n");
 			}
 			bw.flush();
 		}
 	    bw.close();
 	}
-
 }

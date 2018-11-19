@@ -14,9 +14,9 @@ public class SqlConnection {
 	private String serverAddress = null;//Servers ip address.
 	private Connection sqlCon;//Connection
 	private String host = null;//Serve'sr host information.
-	private String userName = null;//Server'ss username.
+	private String userName = null;//Server'ss user-name.
 	private String password = null;//Server's password.
-	private String schema = null;
+	private String schema = null;//Holds the schema of the current working schema.
 	
 	public SqlConnection(String serverAddress, String userName, String password, String schema, boolean useSSLConnection) throws SQLException{
 		this.serverAddress = serverAddress;
@@ -67,7 +67,6 @@ public class SqlConnection {
 	
 	public int getCount(String query) throws SQLException{
 		ResultSet result = sqlCon.createStatement().executeQuery(query);
-		
 		while(result.next())
 			return result.getInt(1);
 		return 0;
@@ -95,7 +94,6 @@ public class SqlConnection {
 	
 	public ResultSet getFromSelectStatementAsResultSet(String query) throws SQLException {
 		return sqlCon.createStatement().executeQuery(query);
-
 	}
 	
 	//Get data from table.
@@ -137,5 +135,4 @@ public class SqlConnection {
 	public void closeConnection() throws SQLException{
 		sqlCon.close();
 	}
-
 }
