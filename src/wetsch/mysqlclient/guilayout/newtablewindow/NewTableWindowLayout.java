@@ -31,7 +31,7 @@ import wetsch.mysqlclient.objects.customuiobjects.button.CustomJButton;
 import wetsch.mysqlclient.objects.customuiobjects.editor.JComboboxCellEditor;
 import wetsch.mysqlclient.objects.customuiobjects.jtable.NewTableColumnsJTable;
 import wetsch.mysqlclient.objects.customuiobjects.renderor.GenericJTableCellRender;
-import wetsch.mysqlclient.objects.customuiobjects.scrolpane.CustomScrolPane;
+import wetsch.mysqlclient.objects.customuiobjects.scrollpane.CustomScrollPane;
 import wetsch.mysqlclient.objects.database.Database;
 import wetsch.mysqlclient.objects.enums.DataType;
 import wetsch.mysqlclient.objects.enums.DataTypeAttribiutes;
@@ -50,7 +50,7 @@ public abstract class NewTableWindowLayout extends JPanel{
 
 	protected JFrame frame;
 
-	private CustomScrolPane scrpColumTable;
+	private CustomScrollPane scrpColumTable;
 	private JScrollPane scrpQueryAera;
 	
 	protected NewTableColumnsJTable tblNewColumns;
@@ -211,7 +211,7 @@ public abstract class NewTableWindowLayout extends JPanel{
 		tblNewColumns = new NewTableColumnsJTable(new DefaultTableModel(columnNames, 0), new GenericJTableCellRender(), JTableID.NewTableColumns);
 		tblNewColumns.getColumnModel().getColumn(0).setCellRenderer(new GenericJTableCellRender());
 		tblNewColumns.getColumnModel().getColumn(1).setCellEditor(new JComboboxCellEditor(jcbDataTypes));
-		scrpColumTable = new CustomScrolPane(tblNewColumns);
+		scrpColumTable = new CustomScrollPane(tblNewColumns);
 		DefaultTableModel m = (DefaultTableModel) tblNewColumns.getModel();
 		m.addRow(new Object[]{null,null,false});
 		addComp(jpNewColumns, scrpColumTable, 2, 1, 1, 2, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.BOTH, 1, 1);

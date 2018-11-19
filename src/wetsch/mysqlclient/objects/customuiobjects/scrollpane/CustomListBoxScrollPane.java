@@ -1,4 +1,4 @@
-package wetsch.mysqlclient.objects.customuiobjects.scrolpane;
+package wetsch.mysqlclient.objects.customuiobjects.scrollpane;
 
 
 import java.awt.Color;

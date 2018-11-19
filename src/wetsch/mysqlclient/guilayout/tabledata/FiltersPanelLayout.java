@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 
 import wetsch.mysqlclient.objects.customuiobjects.button.CustomJButton;
 import wetsch.mysqlclient.objects.customuiobjects.button.CustomToggleButton;
-import wetsch.mysqlclient.objects.customuiobjects.scrolpane.CustomListBoxScrollPane;
+import wetsch.mysqlclient.objects.customuiobjects.scrollpane.CustomListBoxScrollPane;
 
 abstract class FiltersPanelLayout extends JPanel{
 	private static final long serialVersionUID = 1L;

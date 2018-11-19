@@ -63,17 +63,22 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 				continue;
 			else
 				model.addElement((String) value);
-	}		}
+		}	
+		columnsSelected = lstDisplayedColuns.getModel().getSize();
+		updateQueryInfoLabel();
+	}
 	
 	private void btnRemoveColumns(){
 		DefaultListModel<String> model = (DefaultListModel<String>) lstDisplayedColuns.getModel();
 		if(lstDisplayedColuns.getSelectedValuesList().size() == 0){
 			JOptionPane.showMessageDialog(this, "You do not have any columns selected.");
 			return;
-
 		}
 		for (Object value : lstDisplayedColuns.getSelectedValuesList())
 			model.removeElement(value);
+		columnsSelected = lstDisplayedColuns.getModel().getSize();
+		updateQueryInfoLabel();
+
 	}
 	
 	private void btnQuery(){
@@ -90,6 +95,8 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 		try {
 			data = table.SelectGroupByColumn(selectedColumns, jtfRowCountColumnName.getText().toString());
 			tblData.setModel(new CustomJTableModel(data));
+			rowsFound = tblData.getModel().getRowCount();
+			updateQueryInfoLabel();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 			e.printStackTrace();

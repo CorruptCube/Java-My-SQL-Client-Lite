@@ -1,4 +1,4 @@
-package wetsch.mysqlclient.objects.customuiobjects.scrolpane;
+package wetsch.mysqlclient.objects.customuiobjects.scrollpane;
 
 
 import java.awt.Component;
@@ -7,10 +7,10 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 
 
-public class CustomScrolPane extends JScrollPane {
+public class CustomScrollPane extends JScrollPane {
 	private static final long serialVersionUID = 1L;
 
-	public CustomScrolPane(Component c){
+	public CustomScrollPane(Component c){
 		super(c);
 		setOpaque(false);
 		getViewport().setOpaque(false);

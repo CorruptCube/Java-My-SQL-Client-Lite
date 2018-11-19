@@ -23,7 +23,7 @@ import wetsch.mysqlclient.guilayout.settingswindow.backuprestorepanel.BackupRest
 import wetsch.mysqlclient.objects.customuiobjects.button.CustomJButton;
 import wetsch.mysqlclient.objects.customuiobjects.button.CustomToggleButton;
 import wetsch.mysqlclient.objects.customuiobjects.jtabbedpane.CustomJTabbedPane;
-import wetsch.mysqlclient.objects.customuiobjects.scrolpane.CustomScrolPane;
+import wetsch.mysqlclient.objects.customuiobjects.scrollpane.CustomScrollPane;
 import wetsch.mysqlclient.objects.enums.JTableID;
 
 public abstract class SettingsFrameLayout extends JFrame {
@@ -37,7 +37,7 @@ public abstract class SettingsFrameLayout extends JFrame {
 	
 	protected CustomJTabbedPane tabs;
 	
-	private CustomScrolPane jspLookAndFeel;
+	private CustomScrollPane jspLookAndFeel;
 	
 	private JPanel jpLookAndFeel = new JPanel(new GridBagLayout());
 	private JPanel jpAbout = new JPanel();
@@ -72,7 +72,7 @@ public abstract class SettingsFrameLayout extends JFrame {
 		tabs.setForeground(Color.white);
 		jpLookAndFeel.setOpaque(true);
 
-		jspLookAndFeel = new CustomScrolPane(jpLookAndFeel);
+		jspLookAndFeel = new CustomScrollPane(jpLookAndFeel);
 
 		JLabel l1 = new JLabel("Animations");
 		addComp(jpLookAndFeel, l1, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 0.7, 0);

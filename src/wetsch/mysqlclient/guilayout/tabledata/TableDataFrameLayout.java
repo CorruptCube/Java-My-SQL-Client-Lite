@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 
 import wetsch.mysqlclient.objects.customuiobjects.button.CustomJButton;
 import wetsch.mysqlclient.objects.customuiobjects.jtable.TableDataJTable;
-import wetsch.mysqlclient.objects.customuiobjects.scrolpane.CustomScrolPane;
+import wetsch.mysqlclient.objects.customuiobjects.scrollpane.CustomScrollPane;
 import wetsch.mysqlclient.objects.database.Tables;
 import wetsch.mysqlclient.objects.enums.JTableID;
 
@@ -61,7 +61,7 @@ abstract class TableDataFrameLayout extends JFrame {
 	protected CustomJButton btnTableFilters;//Open/Close table filters panel.
 
 	//JScrolPanes
-	private CustomScrolPane scrpDataTable;//Holds the JTable that holds the data of the record set.
+	private CustomScrollPane scrpDataTable;//Holds the JTable that holds the data of the record set.
 	//JTables
 	protected TableDataJTable tblData;//Jtable that ods the data for the record set.
 	//JComboBox
@@ -168,7 +168,7 @@ abstract class TableDataFrameLayout extends JFrame {
 		addComp(jpMainPanel, lblRecordSet, 0, 2, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, 0, 0);
 
 		tblData = new TableDataJTable(table, null, JTableID.DataTable);
-		scrpDataTable = new CustomScrolPane(tblData);
+		scrpDataTable = new CustomScrollPane(tblData);
 		scrpDataTable.setBorder(BorderFactory.createLineBorder(Color.blue));
 		addComp(jpMainPanel, scrpDataTable, 0, 3, 10, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, 1, 1);
 

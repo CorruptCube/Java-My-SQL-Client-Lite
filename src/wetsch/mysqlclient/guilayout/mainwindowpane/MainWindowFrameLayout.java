@@ -20,7 +20,7 @@ import wetsch.mysqlclient.objects.customuiobjects.jtable.CustomJTable;
 import wetsch.mysqlclient.objects.customuiobjects.renderor.GenericJTableCellRender;
 import wetsch.mysqlclient.objects.customuiobjects.renderor.schemaTableCellRendor;
 import wetsch.mysqlclient.objects.customuiobjects.renderor.schemaTablesTableCellRendor;
-import wetsch.mysqlclient.objects.customuiobjects.scrolpane.CustomScrolPane;
+import wetsch.mysqlclient.objects.customuiobjects.scrollpane.CustomScrollPane;
 import wetsch.mysqlclient.objects.database.Database;
 import wetsch.mysqlclient.objects.enums.JTableID;
 
@@ -55,9 +55,9 @@ abstract class MainWindowFrameLayout extends JPanel {
 	protected CustomJTable tblSchemaTable;
 	protected CustomJTable tblTableDescribe;
 	//ScrolPanes
-	private CustomScrolPane scrpSchemas;
-	private CustomScrolPane scrpSchemaTables;
-	private  CustomScrolPane scrpTableDescribe;
+	private CustomScrollPane scrpSchemas;
+	private CustomScrollPane scrpSchemaTables;
+	private  CustomScrollPane scrpTableDescribe;
 	
 	protected String loginSchema;
 	public MainWindowFrameLayout(String serverAddress){
@@ -93,15 +93,15 @@ abstract class MainWindowFrameLayout extends JPanel {
 		menuItemDropTable = new JMenuItem("Drop Table");
 		
 		tblSchemas = new CustomJTable(null, new schemaTableCellRendor(), JTableID.Schemas);
-		scrpSchemas = new CustomScrolPane(tblSchemas);
+		scrpSchemas = new CustomScrollPane(tblSchemas);
 		addComp(this, scrpSchemas, 1, 1, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH, 0.4, 0.5);
 		
 		tblSchemaTable = new CustomJTable(null, new schemaTablesTableCellRendor(), JTableID.SchemaTables);
-		scrpSchemaTables = new CustomScrolPane(tblSchemaTable);
+		scrpSchemaTables = new CustomScrollPane(tblSchemaTable);
 		addComp(this, scrpSchemaTables, 2, 1, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH, 0.6, 0.5);
 		
 		tblTableDescribe = new CustomJTable(null, new GenericJTableCellRender(), JTableID.SchemaTableDiscription);
-		scrpTableDescribe = new CustomScrolPane(tblTableDescribe);
+		scrpTableDescribe = new CustomScrollPane(tblTableDescribe);
 		addComp(this, scrpTableDescribe, 1, 2, 2, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH, 0, 0.5);
 
 		
