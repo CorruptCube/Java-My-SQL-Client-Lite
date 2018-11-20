@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -37,6 +38,8 @@ public class GroupByColumnLayout extends JPanel {
 	JFrame frame = new JFrame("Group By Column");
 	
 	private GridBagConstraints jplc;
+	
+	private JPanel jplFilterFields = new JPanel(new GridBagLayout());
 
 	protected JList<String> lstColumns = new JList<String>();
 	protected JList<String> lstDisplayedColuns = new JList<>();
@@ -49,7 +52,10 @@ public class GroupByColumnLayout extends JPanel {
 	protected CustomJButton btnQuery;
 	
 	protected JTextField jtfRowCountColumnName;
-	
+	protected JTextField jtfRegxFilter1;//Text filed to filter table data.
+	protected JTextField jtfRegxFilter2;//Text filed to filter table data.
+	protected JTextField jtfRegxFilter3;//Text filed to filter table data.
+
 	protected JLabel lblQueryInfo;
 	
 	//Pop-up Menus
@@ -120,11 +126,46 @@ public class GroupByColumnLayout extends JPanel {
 		scrplstDisplayedColuns = new CustomListBoxScrollPane(lstDisplayedColuns);
 		addComp(this, scrplstDisplayedColuns, 4, 2, 1, 5, GridBagConstraints.LINE_START, GridBagConstraints.VERTICAL, 0, 0);
 		scrplstDisplayedColuns.setPreferredSize(scrplstDisplayedColuns.getPreferredSize());
+		
+		JLabel L4 = new JLabel("Regx Filters");
+		L4.setForeground(Color.WHITE);
+		addComp(this, L4, 5, 1, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
+		
+		setUpRegxFieldsPanel();
+		addComp(this, jplFilterFields, 5, 2, 3, 4, GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL, 0, 0);
 
 		jplc.insets = new Insets(0, 0, 0, 0);
 		tblData = new TableDataJTable(table, new DefaultTableModel(ColumnNames, 0), JTableID.DataTable);
 		scrpDataTable = new CustomScrollPane(tblData);
 		addComp(this, scrpDataTable, 1, 7, 5, 1, GridBagConstraints.LINE_START, GridBagConstraints.BOTH, 1, 1);
+		
+	}
+	
+	private void setUpRegxFieldsPanel(){
+		jplFilterFields.setOpaque(false);
+		jtfRegxFilter1 = new JTextField();
+		jtfRegxFilter2 = new JTextField();
+		jtfRegxFilter3 = new JTextField();
+
+		jplc.insets = new Insets(0, 0, 20, 0);
+
+		JLabel L1 = new JLabel("Field 1:");
+		L1.setForeground(Color.WHITE);
+		addComp(jplFilterFields, L1, 1, 1, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
+
+		addComp(jplFilterFields, jtfRegxFilter1, 2, 1, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL, 0, 0);
+
+		JLabel L2 = new JLabel("Field 2:");
+		L2.setForeground(Color.WHITE);
+		addComp(jplFilterFields, L2, 1, 2, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
+		
+		addComp(jplFilterFields, jtfRegxFilter2, 2, 2, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL, 0, 0);
+
+		JLabel L3 = new JLabel("Field 3");
+		L3.setForeground(Color.WHITE);
+		addComp(jplFilterFields, L3, 1, 3, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.NONE, 0, 0);
+
+		addComp(jplFilterFields, jtfRegxFilter3, 2, 3, 1, 1, GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL, 1, 1);
 
 		
 	}

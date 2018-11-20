@@ -5,6 +5,8 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -14,11 +16,13 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 import wetsch.mysqlclient.objects.customuiobjects.tablemodels.CustomJTableModel;
 import wetsch.mysqlclient.objects.database.Tables;
 
-public class GroupByColumn extends GroupByColumnLayout implements ActionListener{
+public class GroupByColumn extends GroupByColumnLayout implements ActionListener, KeyListener{
 
 	private static final long serialVersionUID = 1L;
 	private MouseAdapter myMouseAdapter = new MyMouseAdapter();//Class for the mouse listener.
@@ -39,6 +43,10 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 		tblData.addMouseListener(myMouseAdapter);
 		//Pop up menu listeners.
 		dtMenu.jmiCopy.addActionListener(this);
+		
+		jtfRegxFilter1.addKeyListener(this);
+		jtfRegxFilter2.addKeyListener(this);
+		jtfRegxFilter3.addKeyListener(this);
 	}
 	
 	private void populatelstColumnsBox() {
@@ -48,6 +56,20 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 		lstColumns.setModel(model);
 		lstDisplayedColuns.setModel(new DefaultListModel<String>());
 	}
+	
+	private void filterTable(){
+		ArrayList<RowFilter<Object,Object>> filters = new ArrayList<RowFilter<Object,Object>>(3);
+		filters.add(RowFilter.regexFilter(jtfRegxFilter1.getText().toString()));
+		filters.add(RowFilter.regexFilter(jtfRegxFilter2.getText().toString()));
+		filters.add(RowFilter.regexFilter(jtfRegxFilter3.getText().toString()));
+
+		RowFilter<Object, Object> rf = RowFilter.andFilter(filters);
+		TableRowSorter<CustomJTableModel> trs = new TableRowSorter<CustomJTableModel>((CustomJTableModel) tblData.getModel());
+		trs.setRowFilter(rf);
+		tblData.setRowSorter(trs);
+	}
+	
+	//Action Listener methods.
 	
 	private void btnAddColumns(){
 		if(lstDisplayedColuns == null){
@@ -140,5 +162,19 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 		        dtMenu.show(tblData, e.getX(), e.getY());
 			}
 		}
-	};
+	}
+	
+	//Key Listeners
+	@Override
+	public void keyTyped(KeyEvent e) {
+		filterTable();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
 }
