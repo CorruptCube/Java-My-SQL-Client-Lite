@@ -17,6 +17,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import wetsch.mysqlclient.objects.customuiobjects.tablemodels.CustomJTableModel;
@@ -31,7 +32,6 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 		super(table);
 		populatelstColumnsBox();
 		setupActionListeners();
-
 	}
 	
 	//Method called to setup action listeners for GUI.
@@ -64,7 +64,7 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 		filters.add(RowFilter.regexFilter(jtfRegxFilter3.getText().toString()));
 
 		RowFilter<Object, Object> rf = RowFilter.andFilter(filters);
-		TableRowSorter<CustomJTableModel> trs = new TableRowSorter<CustomJTableModel>((CustomJTableModel) tblData.getModel());
+		TableRowSorter<DefaultTableModel> trs = new TableRowSorter<DefaultTableModel>((DefaultTableModel) tblData.getModel());
 		trs.setRowFilter(rf);
 		tblData.setRowSorter(trs);
 	}
@@ -147,7 +147,7 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 		else if(e.getSource() == btnQuery)
 			btnQuery();
 	
-		//Popup menu actions.
+		//Pop-up menu actions.
 		else if(e.getSource() == dtMenu.jmiCopy)
 			jmiCopyToClipBoardHandler();
 	
@@ -167,7 +167,6 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 	//Key Listeners
 	@Override
 	public void keyTyped(KeyEvent e) {
-		filterTable();
 	}
 
 	@Override
@@ -176,5 +175,6 @@ public class GroupByColumn extends GroupByColumnLayout implements ActionListener
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		filterTable();
 	}
 }
